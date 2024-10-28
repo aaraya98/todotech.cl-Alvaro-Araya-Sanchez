@@ -1,1 +1,2 @@
 # todotech.cl-Alvaro-Araya-Sanchez
+Una nueva pyme llamada todotech actualmente no cuenta con sucursales pero si desea realizar ventas web, por lo cual requiere de una pagina web, la problemática principal es que tienen el front-end terminado, pero les falta todo el back-end, lo cual incluye la BBDD, la misma la solicitaron en el motor de MySQL, junto a su DER y el script de creación junto a sus relaciones.
