@@ -162,7 +162,7 @@ Una nueva pyme llamada todotech actualmente cuenta con una sucursal, pero aspira
   - `sueldo`
 - **Relaciones**:
   - Relación 1-* con **Sucursal**: Cada empleado está asignado a una sucursal.
-  - Relación - con **Rol_Empleado**: Cada empleado puede tener múltiples roles.
+  - Relación 1-* con **Rol_Empleado**: Cada empleado puede tener múltiples roles.
   - Relación 1-* con **Imagen_Empleado**: Cada empleado puede tener múltiples imágenes.
 
 ---
