@@ -189,10 +189,12 @@ Una nueva pyme llamada todotech actualmente cuenta con una sucursal, pero aspira
 - **Campos**:
   - `id_inventario` (PK)
   - `id_producto` (FK)
+  - `id_sucursal` (FK)
   - `id_proveedor` (FK)
   - `cantidad`
 - **Relaciones**:
   - Relación *-1 con **Producto**: Un producto puede estar en el inventario de varias sucursales.
+  - Relación *-1 con Sucursal: Una sucursal puede tener varios productos de distintos proveedores
   - Relación *-1 con **Proveedor**: Un producto puede ser suministrado por varios proveedores.
 
 ---
