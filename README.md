@@ -364,7 +364,9 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 ---
 
 ## DER pre-codigo
-![DER pre-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/31bf6018-c18f-4e19-bf71-de78197c4c0f)
+![DER pre-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/edb2f6c7-a773-4a0c-887b-c7337a78bebf)
+
 
 ## DER post-codigo
-![DER post-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/691916db-7b72-43f8-9f4e-4e72f7359226)
+![DER post-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/e9aa9cb5-321a-43cc-9710-407f8c56c6af)
+
