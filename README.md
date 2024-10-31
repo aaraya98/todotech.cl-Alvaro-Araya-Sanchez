@@ -370,3 +370,11 @@ Una nueva pyme llamada todotech actualmente cuenta con una sucursal, pero aspira
   - `ruta_imagen`
 - **Relaciones**:
   - Relación 1-* con **Empleado**: Un empleado puede tener múltiples imágenes asociadas.
+
+---
+
+## DER pre-codigo
+![DER pre-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/31bf6018-c18f-4e19-bf71-de78197c4c0f)
+
+## DER post-codigo
+![DER post-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/691916db-7b72-43f8-9f4e-4e72f7359226)
