@@ -3,373 +3,363 @@ Una nueva pyme llamada todotech actualmente cuenta con una sucursal, pero aspira
 
 # Documentación de la Base de Datos
 
-## 1. Dirección
-- **Propósito**: Almacena las direcciones de los clientes.
-- **Campos**:
-  - `id_direccion` (PK)
-  - `id_usuario` (FK)
-  - `calle`
-  - `numero`
-  - `comuna`
-  - `region`
-  - `codigo_postal`
-- **Relaciones**:
-  - Relación 1-* con **Cliente**: Un cliente puede tener múltiples direcciones, pero esas direcciones solo le pertenecen a un usuario.
+Este documento describe las tablas y relaciones del sistema de base de datos diseñado para gestionar clientes, direcciones, descuentos, pedidos y boletas/facturas.
+
+## 1. Tabla `cliente`
+**Atributos:**
+- `id_cliente` INT (PK): Identificador único del cliente.
+- `rut_cliente` VARCHAR(12): RUT del cliente.
+- `nombres` VARCHAR(25): Nombres del cliente.
+- `apellidos` VARCHAR(40): Apellidos del cliente.
+- `estado` ENUM(...): Estado del cliente.
+- `fecha_nacimiento` DATE: Fecha de nacimiento del cliente.
+- `email` VARCHAR(70): Correo electrónico del cliente.
+- `telefono` VARCHAR(15): Teléfono del cliente.
+- `fecha_registro` DATETIME: Fecha de registro del cliente en el sistema.
+
+**Relaciones:**
+- `cliente 1 - * pedido`: Un cliente puede tener múltiples pedidos.
 
 ---
 
-## 2. Cliente
-- **Propósito**: Almacena los datos de los clientes.
-- **Campos**:
-  - `id_cliente` (PK)
-  - `rut`
-  - `nombres`
-  - `apellidos`
-  - `estado`
-  - `fecha_nacimiento`
-  - `email` (único)
-  - `telefono`
-  - `contrasena`
-  - `fecha_registro`
-- **Relaciones**:
-  - Relación 1-* con **Pedido**: Un cliente puede realizar múltiples pedidos, y cada pedido está relacionado a un solo cliente.
-  - Relación 1-* con **Carrito_Compras**: Un cliente puede tener múltiples productos en su carrito de compras.
-  - Relación 1-* con **Descuento_Cliente**: Un cliente puede tener múltiples descuentos asignados, pero los descuentos son únicos para cada cliente.
+## 2. Tabla `direccion`
+**Atributos:**
+- `id_direccion` INT (PK): Identificador único de la dirección.
+- `id_cliente` INT (FK): Identificador del cliente asociado.
+- `calle` VARCHAR(30): Calle de la dirección.
+- `numero` VARCHAR(10): Número de la dirección.
+- `comuna` VARCHAR(30): Comuna de la dirección.
+- `region` VARCHAR(30): Región de la dirección.
+- `código_postal` VARCHAR(10): Código postal de la dirección.
+
+**Relaciones:**
+- `direccion 1 - * cliente`: Una dirección puede estar asignada a uno o varios clientes.
 
 ---
 
-## 3. Boleta_Factura
-- **Propósito**: Almacena el tipo de emisión y la fecha de la misma.
-- **Campos**:
-  - `id_boleta_factura` (PK)
-  - `tipo` (indica si es boleta o factura)
-  - `fecha_emision`
-- **Relaciones**:
-  - Relación 1-1 con **Pedido**: Cada pedido genera una única boleta o factura.
+## 3. Tabla `descuento_cliente`
+**Atributos:**
+- `id_descuento` INT (PK): Identificador único del descuento.
+- `id_cliente` INT (FK): Identificador del cliente al que se asigna el descuento.
+- `nombre_descuento` VARCHAR(100): Nombre del descuento.
+- `descripcion` TEXT: Descripción del descuento.
+- `porcentaje` DECIMAL(5, 2): Porcentaje de descuento.
+- `estado` ENUM(...): Estado del descuento.
+- `fecha_inicio` DATETIME: Fecha de inicio del descuento.
+- `fecha_termino` DATETIME: Fecha de término del descuento.
+
+**Relaciones:**
+- `cliente 1 - * descuento_cliente`: Un cliente puede tener múltiples descuentos asignados.
 
 ---
 
-## 4. Envío
-- **Propósito**: Contiene los detalles de envío de cada pedido.
-- **Campos**:
-  - `id_envio` (PK)
-  - `estado_envio`
-  - `fecha_empaquetado`
-  - `fecha_enviado`
-  - `fecha_entregado`
-- **Relaciones**:
-  - Relación 1-1 con **Pedido**: Cada pedido tiene un solo envío asociado.
+## 4. Tabla `pedido`
+**Atributos:**
+- `id_pedido` INT (PK): Identificador único del pedido.
+- `id_cliente` INT (FK): Identificador del cliente que realiza el pedido.
+- `id_envio` INT (FK): Identificador del envío asociado.
+- `id_metodo_pago` INT (FK): Identificador del método de pago utilizado.
+- `id_boleta_factura` INT (FK): Identificador de la boleta o factura asociada al pedido.
+- `fecha_pedido` DATETIME: Fecha en que se realizó el pedido.
+- `monto_total` DECIMAL(10, 2): Monto total del pedido.
+
+**Relaciones:**
+- `cliente 1 - * pedido`: Un cliente puede realizar múltiples pedidos.
+- `pedido 1 - 1 boleta_factura`: Cada pedido tiene una boleta o factura única.
 
 ---
 
-## 5. Método_Pago
-- **Propósito**: Almacena los métodos de pago que se pueden utilizar para cancelar los pedidos.
-- **Campos**:
-  - `id_metodo_pago` (PK)
-  - `nombre_metodo`
-- **Relaciones**:
-  - Relación 1-1 con **Pedido**: Un pedido solo puede utilizar un único método de pago.
+## 5. Tabla `boleta_factura`
+**Atributos:**
+- `id_boleta_factura` INT (PK): Identificador único de la boleta o factura.
+- `id_pedido` INT (FK): Identificador del pedido asociado.
+- `fecha_emision` DATETIME: Fecha de emisión de la boleta o factura.
+
+**Relaciones:**
+- `pedido 1 - 1 boleta_factura`: Cada boleta o factura corresponde a un único pedido.
 
 ---
 
-## 6. Pedido
-- **Propósito**: Almacena la información de los pedidos realizados por los clientes.
-- **Campos**:
-  - `id_pedido` (PK)
-  - `id_cliente` (FK)
-  - `id_envio` (FK)
-  - `id_metodo_pago` (FK)
-  - `id_boleta_factura` (FK)
-  - `fecha_pedido`
-  - `monto_total`
-- **Relaciones**:
-  - Relación *-1 con **Cliente**: Un pedido pertenece a un cliente.
-  - Relación 1-* con **Detalle_Pedido**: Un pedido puede incluir múltiples detalles de productos.
-  - Relación 1-1 con **Envío**: Cada pedido tiene un solo envío asociado.
-  - Relación 1-1 con **Método_Pago**: Cada pedido tiene un único método de pago.
-  - Relación 1-1 con **Boleta_Factura**: Cada pedido genera una boleta o factura.
+## 6. Tabla `envio`
+**Atributos:**
+- `id_envio` INT (PK): Identificador único del envío.
+- `id_pedido` INT (FK): Identificador del pedido asociado al envío.
+- `estado_envio` ENUM(...): Estado del envío.
+- `fecha_entrega_estimada` DATETIME: Fecha estimada de entrega.
+- `fecha_entrega_real` DATETIME: Fecha real de entrega.
+
+**Relaciones:**
+- `pedido 1 - 1 envio`: Cada pedido tiene un único envío asociado.
 
 ---
 
-## 7. Carrito_Compras
-- **Propósito**: Almacena los productos que los clientes agregan a su carrito.
-- **Campos**:
-  - `id_carrito` (PK)
-  - `id_cliente` (FK)
-  - `id_producto` (FK)
-  - `cantidad`
-- **Relaciones**:
-  - Relación *-1 con **Cliente**: Un carrito pertenece a un cliente.
-  - Relación *-1 con **Producto**: Cada elemento en el carrito se refiere a un producto específico.
+## 7. Tabla `metodo_pago`
+**Atributos:**
+- `id_metodo_pago` INT (PK): Identificador único del método de pago.
+- `nombre_metodo` VARCHAR(50): Nombre del método de pago.
+
+**Relaciones:**
+- `metodo_pago 1 - * pedido`: Un método de pago puede estar asociado con múltiples pedidos.
 
 ---
 
-## 8. Producto
-- **Propósito**: Almacena la información de los productos que se venden en la tienda.
-- **Campos**:
-  - `id_producto` (PK)
-  - `id_categoria` (FK)
-  - `id_marca` (FK)
-  - `nombre_producto`
-  - `descripcion`
-  - `sku`
-  - `stock`
-  - `estado`
-  - `precio`
-- **Relaciones**:
-  - Relación 1-* con **Detalle_Pedido**: Un producto puede estar en varios pedidos.
-  - Relación 1-* con **Historial_Precio**: Un producto puede tener múltiples precios en distintos momentos.
-  - Relación 1-* con **Descuento_Producto**: Un producto puede tener múltiples descuentos.
-  - Relación 1-* con **Inventario_Producto**: Cada producto está en el inventario de distintas sucursales.
-  - Relación 1-* con **Imagen_Producto** y **Img_Desc_Producto**: Un producto puede tener múltiples imágenes.
+## 8. Tabla `empleado`
+**Atributos:**
+- `id_empleado` INT (PK): Identificador único del empleado.
+- `id_sucursal` INT (FK): Identificador de la sucursal asociada.
+- `rut` VARCHAR(12): RUT del empleado.
+- `nombres` VARCHAR(25): Nombres del empleado.
+- `apellidos` VARCHAR(40): Apellidos del empleado.
+- `estado` ENUM(...): Estado del empleado.
+- `fecha_nacimiento` DATE: Fecha de nacimiento del empleado.
+- `telefono` VARCHAR(15): Teléfono del empleado.
+- `email` VARCHAR(70): Correo electrónico del empleado.
+- `calle` VARCHAR(30): Calle de la dirección del empleado.
+- `numero` VARCHAR(10): Número de la dirección.
+- `comuna` VARCHAR(30): Comuna de la dirección.
+- `region` VARCHAR(30): Región de la dirección.
+- `estado_civil` ENUM(...): Estado civil del empleado.
+- `contrasena` VARCHAR(25): Contraseña del empleado.
+- `cargo` VARCHAR(80): Cargo del empleado.
+- `fecha_ingreso` DATE: Fecha de ingreso del empleado.
+- `sueldo` DECIMAL(10, 2): Sueldo del empleado.
+
+**Relaciones:**
+- `sucursal 1 - * empleado`: Una sucursal puede tener múltiples empleados.
 
 ---
 
-## 9. Detalle_Pedido
-- **Propósito**: Contiene el detalle de los productos incluidos en cada pedido.
-- **Campos**:
-  - `id_detalle_pedido` (PK)
-  - `id_pedido` (FK)
-  - `id_producto` (FK)
-  - `cantidad`
-  - `precio_unitario`
-- **Relaciones**:
-  - Relación *-1 con **Pedido**: Cada detalle pertenece a un pedido.
-  - Relación *-1 con **Producto**: Cada detalle hace referencia a un producto específico.
+## 9. Tabla `rol_empleado`
+**Atributos:**
+- `id_rol` INT (PK): Identificador único del rol.
+- `nombre_rol` VARCHAR(100): Nombre del rol.
+
+**Relaciones:**
+- `rol_empleado 1 - * empleado_rol`: Un rol puede asignarse a múltiples empleados.
 
 ---
 
-## 10. Empleado
-- **Propósito**: Almacena los datos de los empleados.
-- **Campos**:
-  - `id_empleado` (PK)
-  - `id_sucursal` (FK)
-  - `rut`
-  - `nombres`
-  - `apellidos`
-  - `estado`
-  - `fecha_nacimiento`
-  - `email` (único)
-  - `telefono`
-  - `calle`
-  - `numero`
-  - `comuna`
-  - `region`
-  - `estado_civil` (Soltero/Casado)
-  - `contrasena`
-  - `cargo`
-  - `fecha_ingreso`
-  - `sueldo`
-- **Relaciones**:
-  - Relación 1-* con **Sucursal**: Cada empleado está asignado a una sucursal.
-  - Relación 1-* con **Rol_Empleado**: Cada empleado puede tener múltiples roles.
-  - Relación 1-* con **Imagen_Empleado**: Cada empleado puede tener múltiples imágenes.
+## 10. Tabla `empleado_rol`
+**Atributos:**
+- `id_empleado_rol` INT (PK): Identificador único de la asignación del rol al empleado.
+- `id_empleado` INT (FK): Identificador del empleado.
+- `id_rol` INT (FK): Identificador del rol asignado.
+- `fecha_asignacion` DATETIME: Fecha de asignación del rol al empleado.
+
+**Relaciones:**
+- `empleado 1 - * empleado_rol`: Un empleado puede tener múltiples roles asignados.
 
 ---
 
-## 11. Sucursal
-- **Propósito**: Almacena la información de las diferentes sucursales de la tienda.
-- **Campos**:
-  - `id_sucursal` (PK)
-  - `nombre_sucursal`
-  - `encargado_sucursal`
-  - `calle`
-  - `numero`
-  - `comuna`
-  - `region`
-  - `telefono`
-- **Relaciones**:
-  - Relación 1-* con **Empleado**: Cada sucursal tiene varios empleados asignados.
-  - Relación 1-* con **Inventario_Producto**: Cada sucursal maneja su propio inventario de productos.
+## 11. Tabla `rol_permiso`
+**Atributos:**
+- `id_rol_permiso` INT (PK): Identificador único de la asignación de permiso al rol.
+- `id_rol` INT (FK): Identificador del rol.
+- `id_permiso` INT (FK): Identificador del permiso.
+- `fecha_asignacion` DATETIME: Fecha de asignación del permiso al rol.
+
+**Relaciones:**
+- `rol_empleado 1 - * rol_permiso`: Un rol puede tener múltiples permisos asignados.
+- `permiso_empleado 1 - * rol_permiso`: Un permiso puede estar asociado a múltiples roles.
 
 ---
 
-## 12. Inventario_Producto
-- **Propósito**: Almacena el inventario disponible para cada producto en cada sucursal.
-- **Campos**:
-  - `id_inventario` (PK)
-  - `id_producto` (FK)
-  - `id_sucursal` (FK)
-  - `id_proveedor` (FK)
-  - `cantidad`
-- **Relaciones**:
-  - Relación *-1 con **Producto**: Un producto puede estar en el inventario de varias sucursales.
-  - Relación *-1 con Sucursal: Una sucursal puede tener varios productos de distintos proveedores
-  - Relación *-1 con **Proveedor**: Un producto puede ser suministrado por varios proveedores.
+## 12. Tabla `permiso_empleado`
+**Atributos:**
+- `id_permiso_empleado` INT (PK): Identificador único del permiso.
+- `nombre_permiso` VARCHAR(100): Nombre del permiso.
+
+**Relaciones:**
+- `permiso_empleado 1 - * rol_permiso`: Un permiso puede estar asignado a múltiples roles.
 
 ---
 
-## 13. Descuento_Cliente
-- **Propósito**: Almacena los descuentos asignados a cada cliente.
-- **Campos**:
-  - `id_descuento_cliente` (PK)
-  - `id_cliente` (FK)
-  - `nombre_descuento`
-  - `descripcion`
-  - `porcentaje`
-  - `estado`
-  - `fecha_inicio`
-  - `fecha_termino`
-- **Relaciones**:
-  - Relación *-1 con **Cliente**: Un cliente puede tener múltiples descuentos asignados.
+## 13. Tabla `pedido_empleado`
+**Atributos:**
+- `id_pedido_empleado` INT (PK): Identificador único de la asignación del pedido al empleado.
+- `id_pedido` INT (FK): Identificador del pedido.
+- `id_empleado` INT (FK): Identificador del empleado.
+- `fecha_movimiento` DATETIME: Fecha en que el empleado gestionó el pedido.
+
+**Relaciones:**
+- `pedido 1 - * pedido_empleado`: Un pedido puede ser gestionado por múltiples empleados.
+- `empleado 1 - * pedido_empleado`: Un empleado puede gestionar múltiples pedidos.
 
 ---
 
-## 14. Imagen_Producto
-- **Propósito**: Almacena las imágenes asociadas a cada producto.
-- **Campos**:
-  - `id_img_producto` (PK)
-  - `id_producto` (FK)
-  - `ruta_imagen`
-- **Relaciones**:
-  - Relación 1-* con **Producto**: Un producto puede tener múltiples imágenes.
+## 14. Tabla `producto`
+**Atributos:**
+- `id_producto` INT (PK): Identificador único del producto.
+- `id_categoria` INT (FK): Identificador de la categoría asociada.
+- `id_marca` INT (FK): Identificador de la marca asociada.
+- `nombre_producto` VARCHAR(120): Nombre del producto.
+- `descripcion` TEXT: Descripción del producto.
+- `sku` VARCHAR(20): Código SKU del producto.
+- `stock` INT: Cantidad de unidades en stock.
+- `estado` ENUM(...): Estado del producto.
+- `precio` DECIMAL(10, 2): Precio del producto.
+
+**Relaciones:**
+- `categoria_producto 1 - * producto`: Una categoría puede contener múltiples productos.
+- `marca_producto 1 - * producto`: Una marca puede tener múltiples productos.
 
 ---
 
-## 15. Img_Desc_Producto
-- **Propósito**: Almacena imágenes descriptivas adicionales para cada producto.
-- **Campos**:
-  - `id_img_desc_producto` (PK)
-  - `id_producto` (FK)
-  - `ruta_imagen`
-- **Relaciones**:
-  - Relación 1-* con **Producto**: Un producto puede tener múltiples imágenes descriptivas adicionales.
+## 15. Tabla `categoria_producto`
+**Atributos:**
+- `id_categoria` INT (PK): Identificador único de la categoría.
+- `nombre_categoria` VARCHAR(50): Nombre de la categoría.
+- `descripcion` TEXT: Descripción de la categoría.
+
+**Relaciones:**
+- `categoria_producto 1 - * producto`: Una categoría puede tener múltiples productos.
 
 ---
 
-## 16. Marca_Producto
-- **Propósito**: Almacena las marcas de los productos.
-- **Campos**:
-  - `id_marca` (PK)
-  - `nombre_marca`
-- **Relaciones**:
-  - Relación 1-* con **Producto**: Una marca puede tener varios productos asociados.
+## 16. Tabla `marca_producto`
+**Atributos:**
+- `id_marca` INT (PK): Identificador único de la marca.
+- `nombre_marca` VARCHAR(100): Nombre de la marca.
+
+**Relaciones:**
+- `marca_producto 1 - * producto`: Una marca puede tener múltiples productos.
 
 ---
 
-## 17. Historial_Precio
-- **Propósito**: Almacena el historial de precios de cada producto, permitiendo rastrear los cambios en el precio a lo largo del tiempo.
-- **Campos**:
-  - `id_historial` (PK)
-  - `id_producto` (FK)
-  - `precio`
-  - `fecha_cambio`
-- **Relaciones**:
-  - Relación *-1 con **Producto**: Cada cambio de precio se asocia a un producto específico.
+## 17. Tabla `descuento_producto`
+**Atributos:**
+- `id_descuento_producto` INT (PK): Identificador único del descuento para el producto.
+- `id_producto` INT (FK): Identificador del producto asociado.
+- `nombre_descuento` VARCHAR(100): Nombre del descuento.
+- `descripcion` TEXT: Descripción del descuento.
+- `porcentaje` DECIMAL(3, 1): Porcentaje de descuento.
+- `estado` ENUM(...): Estado del descuento.
+- `fecha_inicio` DATETIME: Fecha de inicio del descuento.
+- `fecha_termino` DATETIME: Fecha de término del descuento.
+
+**Relaciones:**
+- `producto 1 - * descuento_producto`: Un producto puede tener múltiples descuentos.
 
 ---
 
-## 18. Descuento_Producto
-- **Propósito**: Almacena los descuentos aplicados a cada producto.
-- **Campos**:
-  - `id_descuento_producto` (PK)
-  - `id_producto` (FK)
-  - `nombre_descuento`
-  - `descripcion`
-  - `porcentaje`
-  - `estado`
-  - `fecha_inicio`
-  - `fecha_termino`
-- **Relaciones**:
-  - Relación *-1 con **Producto**: Un producto puede tener múltiples descuentos aplicados en distintos momentos.
+## 18. Tabla `historial_precio`
+**Atributos:**
+- `id_historial` INT (PK): Identificador único del historial de precios.
+- `id_producto` INT (FK): Identificador del producto.
+- `precio` DECIMAL(10, 2): Precio del producto.
+- `fecha_cambio` DATETIME: Fecha del cambio de precio.
+
+**Relaciones:**
+- `producto 1 - * historial_precio`: Un producto puede tener múltiples registros de cambio de precio.
 
 ---
 
-## 19. Categoria_Producto
-- **Propósito**: Clasifica los productos en diferentes categorías.
-- **Campos**:
-  - `id_categoria` (PK)
-  - `nombre_categoria`
-  - `descripcion`
-- **Relaciones**:
-  - Relación 1-* con **Producto**: Una categoría puede agrupar múltiples productos.
+## 19. Tabla `inventario_producto`
+**Atributos:**
+- `id_inventario` INT (PK): Identificador único del inventario.
+- `id_producto` INT (FK): Identificador del producto.
+- `id_sucursal` INT (FK): Identificador de la sucursal.
+- `id_proveedor` INT (FK): Identificador del proveedor.
+- `cantidad` INT: Cantidad de productos en inventario.
+
+**Relaciones:**
+- `producto 1 - * inventario_producto`: Un producto puede estar en inventario en múltiples sucursales.
+- `sucursal 1 - * inventario_producto`: Una sucursal puede tener inventario de múltiples productos.
 
 ---
 
-## 20. Proveedor
-- **Propósito**: Almacena la información de los proveedores de productos.
-- **Campos**:
-  - `id_proveedor` (PK)
-  - `rut`
-  - `nombre`
-  - `email`
-  - `telefono`
-  - `calle`
-  - `numero`
-  - `comuna`
-  - `region`
-- **Relaciones**:
-  - Relación 1-* con **Inventario_Producto**: Un proveedor puede suministrar varios productos que se almacenan en el inventario.
+## 20. Tabla `sucursal`
+**Atributos:**
+- `id_sucursal` INT (PK): Identificador único de la sucursal.
+- `nombre_sucursal` VARCHAR(100): Nombre de la sucursal.
+- `encargado_sucursal` VARCHAR(100): Encargado de la sucursal.
+- `calle` VARCHAR(30): Calle de la sucursal.
+- `numero` VARCHAR(10): Número de la dirección.
+- `comuna` VARCHAR(30): Comuna de la dirección.
+- `region` VARCHAR(30): Región de la dirección.
+- `telefono` VARCHAR(15): Teléfono de la sucursal.
+
+**Relaciones:**
+- `sucursal 1 - * empleado`: Una sucursal puede tener múltiples empleados.
+- `sucursal 1 - * inventario_producto`: Una sucursal puede tener inventario de múltiples productos.
 
 ---
 
-## 21. Empleado_Rol
-- **Propósito**: Define los roles asignados a cada empleado.
-- **Campos**:
-  - `id_empleado_rol` (PK)
-  - `id_empleado` (FK)
-  - `id_rol` (FK)
-  - `fecha_asignacion`
-- **Relaciones**:
-  - Relación *-1 con **Empleado**: Un empleado puede tener múltiples roles.
-  - Relación *-1 con **Rol_Empleado**: Un rol puede ser asignado a varios empleados.
+## 21. Tabla `proveedor`
+**Atributos:**
+- `id_proveedor` INT (PK): Identificador único del proveedor.
+- `rut` VARCHAR(12): RUT del proveedor.
+- `nombre` VARCHAR(100): Nombre del proveedor.
+- `email` VARCHAR(80): Correo electrónico del proveedor.
+- `telefono` VARCHAR(15): Teléfono del proveedor.
+- `calle` VARCHAR(30): Calle de la dirección del proveedor.
+- `numero` VARCHAR(10): Número de la dirección.
+- `comuna` VARCHAR(30): Comuna de la dirección.
+- `region` VARCHAR(30): Región de la dirección.
+
+**Relaciones:**
+- `proveedor 1 - * inventario_producto`: Un proveedor puede estar en inventario en múltiples sucursales.
 
 ---
 
-## 22. Rol_Empleado
-- **Propósito**: Almacena los diferentes roles que pueden tener los empleados.
-- **Campos**:
-  - `id_rol` (PK)
-  - `nombre_rol`
-- **Relaciones**:
-  - Relación *-* con **Empleado_Rol**: Un rol puede asignarse a múltiples empleados.
+## 22. Tabla `detalle_pedido`
+**Atributos:**
+- `id_detalle_pedido` INT (PK): Identificador único del detalle del pedido.
+- `id_pedido` INT (FK): Identificador del pedido.
+- `id_producto` INT (FK): Identificador del producto.
+- `cantidad` SMALLINT: Cantidad de productos en el detalle.
+- `precio_unitario` DECIMAL(10, 2): Precio unitario del producto.
+
+**Relaciones:**
+- `pedido 1 - * detalle_pedido`: Un pedido puede tener múltiples detalles de productos comprados.
+- `producto 1 - * detalle_pedido`: Un producto puede aparecer en múltiples detalles de diferentes pedidos.
 
 ---
 
-## 23. Rol_Permiso
-- **Propósito**: Define los permisos específicos asignados a cada rol de empleado.
-- **Campos**:
-  - `id_rol_permiso` (PK)
-  - `id_rol` (FK)
-  - `id_permiso` (FK)
-  - `fecha_asignacion`
-- **Relaciones**:
-  - Relación *-1 con **Rol_Empleado**: Un rol puede tener múltiples permisos asignados.
-  - Relación *-1 con **Permiso_Empleado**: Un permiso puede estar en varios roles.
+## 23. Tabla `imagen_producto`
+**Atributos:**
+- `id_img_producto` INT (PK): Identificador único de la imagen del producto.
+- `id_producto` INT (FK): Identificador del producto asociado.
+- `ruta_imagen` VARCHAR(255): Ruta de la imagen del producto.
+
+**Relaciones:**
+- `producto 1 - * imagen_producto`: Un producto puede tener múltiples imágenes.
 
 ---
 
-## 24. Permiso_Empleado
-- **Propósito**: Define los diferentes permisos que pueden tener los empleados.
-- **Campos**:
-  - `id_permiso` (PK)
-  - `nombre_permiso`
-- **Relaciones**:
-  - Relación *-* con **Rol_Empleado**: Un permiso puede asignarse a múltiples empleados a través del rol.
+## 24. Tabla `img_desc_producto`
+**Atributos:**
+- `id_img_desc_producto` INT (PK): Identificador único de la imagen descriptiva del producto.
+- `id_producto` INT (FK): Identificador del producto.
+- `ruta_imagen` VARCHAR(255): Ruta de la imagen descriptiva del producto.
+
+**Relaciones:**
+- `producto 1 - * img_desc_producto`: Un producto puede tener múltiples imágenes descriptivas.
 
 ---
 
-## 25. Pedido_Empleado
-- **Propósito**: Registra el empleado que toma acción con los pedidos (por ejemplo, empaquetar o enviar).
-- **Campos**:
-  - `id_pedido_empleado` (PK)
-  - `id_pedido` (FK)
-  - `id_empleado` (FK)
-  - `fecha_movimiento`
-- **Relaciones**:
-  - Relación *-1 con **Pedido**: Un pedido puede tener múltiples empleados que lo atiendan.
-  - Relación *-1 con **Empleado**: Un empleado puede asignarse a múltiples pedidos.
+## 25. Tabla `carrito_compras`
+**Atributos:**
+- `id_carrito` INT (PK): Identificador único del carrito.
+- `id_cliente` INT (FK): Identificador del cliente propietario del carrito.
+- `id_producto` INT (FK): Identificador del producto en el carrito.
+- `cantidad` INT: Cantidad del producto en el carrito.
+
+**Relaciones:**
+- `carrito_compras * - 1 cliente`: Un cliente puede tener muchos productos en su carrito, pero el carrito solo le pertenece a un cliente.
+- `carrito_compras * - 1 producto`: Un producto puede aparecer en muchos carritos.
 
 ---
 
-## 26. Imagen_Empleado
-- **Propósito**: Almacena imágenes asociadas a cada empleado.
-- **Campos**:
-  - `id_img_empleado` (PK)
-  - `id_empleado` (FK)
-  - `ruta_imagen`
-- **Relaciones**:
-  - Relación 1-* con **Empleado**: Un empleado puede tener múltiples imágenes asociadas.
+## 26. Tabla `imagen_empleado`
+**Atributos:**
+- `id_img_empleado` INT (PK): Identificador único de la imagen del empleado.
+- `id_empleado` INT (FK): Identificador del empleado asociado.
+- `ruta_imagen` VARCHAR(255): Ruta de la imagen del empleado.
+
+**Relaciones:**
+- `empleado 1 - * imagen_empleado`: Un empleado puede tener múltiples imágenes.
+
 
 ---
 
