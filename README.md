@@ -193,7 +193,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 ## 14. Tabla `producto`
 **Atributos:**
 - `id_producto` INT (PK): Identificador único del producto.
-- `id_categoria` INT (FK): Identificador de la categoría asociada.
+- `id_subcategoria` INT (FK): Identificador de la subcategoría asociada.
 - `id_marca` INT (FK): Identificador de la marca asociada.
 - `nombre_producto` VARCHAR(120): Nombre del producto.
 - `descripcion` TEXT: Descripción del producto.
@@ -203,7 +203,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 - `precio` DECIMAL(10, 2): Precio del producto.
 
 **Relaciones:**
-- `categoria_producto 1 - * producto`: Una categoría puede contener múltiples productos.
+- `subcategoria_producto 1 - * producto`: Una subcategoría puede contener múltiples productos.
 - `marca_producto 1 - * producto`: Una marca puede tener múltiples productos.
 
 ---
@@ -215,11 +215,24 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 - `descripcion` TEXT: Descripción de la categoría.
 
 **Relaciones:**
-- `categoria_producto 1 - * producto`: Una categoría puede tener múltiples productos.
+- `categoria_producto 1 - * subcategoria_producto`: Una categoría puede tener múltiples subcategorias de productos.
 
 ---
 
-## 16. Tabla `marca_producto`
+## 16. Tabla `subcategoria_producto`
+**Atributos:**
+- `id_subcategoria` INT (PK): Identificador único de la subcategoría.
+- `id_categoria` INT (FK): Identificador de la categoría asociada.
+- `nombre_categoria` VARCHAR(50): Nombre de la subcategoría.
+- `descripcion` TEXT: Descripción de la subcategoría.
+
+**Relaciones:**
+- `categoria_producto 1 - * producto`: Una subcategoría puede tener múltiples productos.
+
+---
+
+
+## 17. Tabla `marca_producto`
 **Atributos:**
 - `id_marca` INT (PK): Identificador único de la marca.
 - `nombre_marca` VARCHAR(100): Nombre de la marca.
@@ -229,7 +242,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 17. Tabla `descuento_producto`
+## 18. Tabla `descuento_producto`
 **Atributos:**
 - `id_descuento_producto` INT (PK): Identificador único del descuento para el producto.
 - `id_producto` INT (FK): Identificador del producto asociado.
@@ -245,7 +258,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 18. Tabla `historial_precio`
+## 19. Tabla `historial_precio`
 **Atributos:**
 - `id_historial` INT (PK): Identificador único del historial de precios.
 - `id_producto` INT (FK): Identificador del producto.
@@ -257,7 +270,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 19. Tabla `inventario_producto`
+## 20. Tabla `inventario_producto`
 **Atributos:**
 - `id_inventario` INT (PK): Identificador único del inventario.
 - `id_producto` INT (FK): Identificador del producto.
@@ -271,7 +284,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 20. Tabla `sucursal`
+## 22. Tabla `sucursal`
 **Atributos:**
 - `id_sucursal` INT (PK): Identificador único de la sucursal.
 - `nombre_sucursal` VARCHAR(100): Nombre de la sucursal.
@@ -288,7 +301,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 21. Tabla `proveedor`
+## 22. Tabla `proveedor`
 **Atributos:**
 - `id_proveedor` INT (PK): Identificador único del proveedor.
 - `rut` VARCHAR(12): RUT del proveedor.
@@ -305,7 +318,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 22. Tabla `detalle_pedido`
+## 23. Tabla `detalle_pedido`
 **Atributos:**
 - `id_detalle_pedido` INT (PK): Identificador único del detalle del pedido.
 - `id_pedido` INT (FK): Identificador del pedido.
@@ -319,7 +332,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 23. Tabla `imagen_producto`
+## 24. Tabla `imagen_producto`
 **Atributos:**
 - `id_img_producto` INT (PK): Identificador único de la imagen del producto.
 - `id_producto` INT (FK): Identificador del producto asociado.
@@ -330,7 +343,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 24. Tabla `img_desc_producto`
+## 25. Tabla `img_desc_producto`
 **Atributos:**
 - `id_img_desc_producto` INT (PK): Identificador único de la imagen descriptiva del producto.
 - `id_producto` INT (FK): Identificador del producto.
@@ -341,7 +354,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 25. Tabla `carrito_compras`
+## 26. Tabla `carrito_compras`
 **Atributos:**
 - `id_carrito` INT (PK): Identificador único del carrito.
 - `id_cliente` INT (FK): Identificador del cliente propietario del carrito.
@@ -354,7 +367,7 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 
 ---
 
-## 26. Tabla `imagen_empleado`
+## 27. Tabla `imagen_empleado`
 **Atributos:**
 - `id_img_empleado` INT (PK): Identificador único de la imagen del empleado.
 - `id_empleado` INT (FK): Identificador del empleado asociado.
