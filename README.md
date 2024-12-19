@@ -379,11 +379,11 @@ Este documento describe las tablas, relaciones y programación del sistema de ba
 
 ## View
 **Se genera 5 Vistas para la BBDD ‘todotech’, las cuales corresponden a:
-•	Revisión de historial de precios/valores los productos ordenados de manera descendente por la fecha de cambio (Utiliza tiple join o inner join lo cual es lo mismo para poder llamar a 4 tablas relacionadas entre sí).
-•	Revisión del stock real que existe en todotech, ordenada de manera ascendente por el stock de los productos, la vista muestra solo los productos con uno o más productos en total.
-•	Revisión de inventario por sucursales (Esta vista servirá más cuando se creen nuevas sucursales puesto que actualmente solo existe una), muestra la sucursal existente junto a los nombres de los productos, la subcategoria que les pertenece a los productos y el stock por inventario.
-•	Revisión de los descuentos vigentes asociados a un cliente ordenados de forma ascendente por fecha_termino, lo cual permite visualizar de manera rápida en inmediata los descuentos que están vigente al día de la consulta.
-•	Revisión de pedidos pendientes en general ya sea, porque aún está en tránsito o recién llego el pedido a la sucursal, permitiendo generar visualización rápida de los pedidos según el estado_envio.
+-	Revisión de historial de precios/valores los productos ordenados de manera descendente por la fecha de cambio (Utiliza tiple join o inner join lo cual es lo mismo para poder llamar a 4 tablas relacionadas entre sí).
+-	Revisión del stock real que existe en todotech, ordenada de manera ascendente por el stock de los productos, la vista muestra solo los productos con uno o más productos en total.
+-	Revisión de inventario por sucursales (Esta vista servirá más cuando se creen nuevas sucursales puesto que actualmente solo existe una), muestra la sucursal existente junto a los nombres de los productos, la subcategoria que les pertenece a los productos y el stock por inventario.
+-	Revisión de los descuentos vigentes asociados a un cliente ordenados de forma ascendente por fecha_termino, lo cual permite visualizar de manera rápida en inmediata los descuentos que están vigente al día de la consulta.
+-	Revisión de pedidos pendientes en general ya sea, porque aún está en tránsito o recién llego el pedido a la sucursal, permitiendo generar visualización rápida de los pedidos según el estado_envio.
 
 
 ## DER pre-codigo
