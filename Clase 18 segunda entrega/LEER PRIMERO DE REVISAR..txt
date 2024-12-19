@@ -1,7 +1,0 @@
-Buenas tardes o noches Nicolas, te hago llegar mi segunda entrega, favor leer todo antes de hacer cualquier cosa con el código.
-
-- BORRAR la BBDD antigua de todotech y volverla a crear, se adjunta el script de creación de la nueva BBDD por temas de cambios en la misma.
-
-- Encontré un error que no es un error en realidad pero no se como solucionarlo: Al querer ejecutar el PROCEDIMIENTO ALMACENADO, siempre dará error si esta creado el trigger para validar los stock, favor revisar el procedimiento almacenado sin el trigger que se encuentra en "DETALLE_PEDIDO", hacer la revision independiente de cada uno y tener los trigger eliminados, ya después los crea sin problemas y hace las pruebas correspondientes.
-
-Eso más que nada, saludos.
