@@ -367,9 +367,11 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 ---
 
 ## DER pre-codigo
-![DER pre-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/edb2f6c7-a773-4a0c-887b-c7337a78bebf)
+![DER pre-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/a10f8818-b027-4fc9-b003-90ab3628eb37)
 
 
 ## DER post-codigo
-![DER post-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/e9aa9cb5-321a-43cc-9710-407f8c56c6af)
+- En una instancia de reunión se solicito agrega una nueva tabla que no estaba considerada la cual es "subcategoria_producto"
+![DER post-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/c636f069-7958-47cf-a569-9db2773165b6)
+
 
