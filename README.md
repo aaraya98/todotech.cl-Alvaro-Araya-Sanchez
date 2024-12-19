@@ -5,8 +5,7 @@
 Una nueva pyme llamada todotech actualmente cuenta con una sucursal, pero aspira a tener más y realizar ventas web, por lo cual requiere de una pagina web ya que no cuenta con ninguna, la problemática principal es que tienen el front-end terminado, pero les falta todo el back-end, lo cual incluye la BBDD, la misma la solicitaron en el motor de MySQL, junto a su DER y el script de creación junto a sus relaciones.
 
 # Documentación de la Base de Datos
-
-Este documento describe las tablas y relaciones del sistema de base de datos diseñado para gestionar clientes, direcciones, descuentos, pedidos y boletas/facturas.
+Este documento describe las tablas, relaciones y programación del sistema de base de datos diseñado para gestionar clientes, empleados, productos y sus ventas.
 
 ## 1. Tabla `cliente`
 **Atributos:**
@@ -376,8 +375,16 @@ Este documento describe las tablas y relaciones del sistema de base de datos dis
 **Relaciones:**
 - `empleado 1 - * imagen_empleado`: Un empleado puede tener múltiples imágenes.
 
-
 ---
+
+## View
+**Se genera 5 Vistas para la BBDD ‘todotech’, las cuales corresponden a:
+•	Revisión de historial de precios/valores los productos ordenados de manera descendente por la fecha de cambio (Utiliza tiple join o inner join lo cual es lo mismo para poder llamar a 4 tablas relacionadas entre sí).
+•	Revisión del stock real que existe en todotech, ordenada de manera ascendente por el stock de los productos, la vista muestra solo los productos con uno o más productos en total.
+•	Revisión de inventario por sucursales (Esta vista servirá más cuando se creen nuevas sucursales puesto que actualmente solo existe una), muestra la sucursal existente junto a los nombres de los productos, la subcategoria que les pertenece a los productos y el stock por inventario.
+•	Revisión de los descuentos vigentes asociados a un cliente ordenados de forma ascendente por fecha_termino, lo cual permite visualizar de manera rápida en inmediata los descuentos que están vigente al día de la consulta.
+•	Revisión de pedidos pendientes en general ya sea, porque aún está en tránsito o recién llego el pedido a la sucursal, permitiendo generar visualización rápida de los pedidos según el estado_envio.
+
 
 ## DER pre-codigo
 ![DER pre-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/a10f8818-b027-4fc9-b003-90ab3628eb37)
