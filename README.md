@@ -378,13 +378,29 @@ Este documento describe las tablas, relaciones y programación del sistema de ba
 ---
 
 ## View
-**Se genera 5 Vistas para la BBDD ‘todotech’, las cuales corresponden a:
+**Se genera 5 Vistas para la BBDD ‘todotech’, las cuales corresponden a:**
 -	Revisión de historial de precios/valores los productos ordenados de manera descendente por la fecha de cambio (Utiliza tiple join o inner join lo cual es lo mismo para poder llamar a 4 tablas relacionadas entre sí).
 -	Revisión del stock real que existe en todotech, ordenada de manera ascendente por el stock de los productos, la vista muestra solo los productos con uno o más productos en total.
 -	Revisión de inventario por sucursales (Esta vista servirá más cuando se creen nuevas sucursales puesto que actualmente solo existe una), muestra la sucursal existente junto a los nombres de los productos, la subcategoria que les pertenece a los productos y el stock por inventario.
 -	Revisión de los descuentos vigentes asociados a un cliente ordenados de forma ascendente por fecha_termino, lo cual permite visualizar de manera rápida en inmediata los descuentos que están vigente al día de la consulta.
 -	Revisión de pedidos pendientes en general ya sea, porque aún está en tránsito o recién llego el pedido a la sucursal, permitiendo generar visualización rápida de los pedidos según el estado_envio.
 
+## Function
+**Se genera 2 funciones para la BBDD ‘todotech’, las cuales corresponden a:**
+- Validar un descuento para un cliente en específico; cuando un cliente desee utilizar su cupón de descuento, según función se sabrá si procede el descuento o ya está utilizado o vencido.
+- Validar edad de cliente para cuando desee generar una cuenta y pueda comenzar a comprar productos, por clausula interna y para malos entendidos, solo se acepta venta para mayores de 18 años, si el return devuelve 17 o menos, se puede utilizar el resultado para negar la inscripción.
+
+## Trigger
+**Se genera 2 Disparadores para la BBDD ‘todotech’, las cuales corresponden a:**
+- Trigger para generar un descuento de bienvenida a cada nuevo cliente que se genere una cuenta en la pagina web, el descuento será de un 10%, cada cliente es único dependiendo del correo electrónico.
+- Trigger para registrar el ultimo precio de los productos después de realizar alguna actualización en sus precios, solo se dispara si actualiza precio, no otro campo.
+
+## Stored Procedure
+**Se genera 2 stored procedure para la BBDD ‘todotech’, las cuales corresponden a:**
+- El procedimiento almacenado genera una transacción la cual es una opción óptima para la BBDD todotech, puesto que, si ocurre un error, realizar un rollback y no insertara nada, comenzara validando el total y el stock actual de los productos, despues insertara en boleta_factura, envio, pedido y guardando el ultimo ID de cada tabla para ser utilizada en detalle_pedido, finalizando los insert comenzara a realizar los descuentos de los stocks de los productos comprados segunda stock menos cantidad.
+- El procedimiento almacenado genera un reporte filtrado por fechas las cuales son de inicio y termino de búsqueda en las cuales se filtrarán todos los productos vendidos en el rango de la misma, lo que permite visualizar cuales son los productos más vendidos durante el año, mes, semana o día específico.
+
+---
 
 ## DER pre-codigo
 ![DER pre-codigo TODOTECH-AlvaroArayaSanchez](https://github.com/user-attachments/assets/a10f8818-b027-4fc9-b003-90ab3628eb37)
